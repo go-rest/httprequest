@@ -157,6 +157,9 @@ func unmarshalString(tag tag) unmarshaler {
 // unmarshalBody unmarshals the http request body
 // into the given value.
 func unmarshalBody(v reflect.Value, p Params, makeResult resultMaker) error {
+	if p.Request.Method == "GET" || p.Request.Method == "DELETE" {
+		return nil
+	}
 	if err := checkIsJSON(p.Request.Header, p.Request.Body); err != nil {
 		return errgo.Mask(err)
 	}
