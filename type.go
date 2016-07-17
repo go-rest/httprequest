@@ -28,6 +28,8 @@ var (
 	typeMap   = make(map[reflect.Type]*requestType)
 )
 
+var TagName = "rest"
+
 // Route is the type of a field that specifies a routing
 // path and HTTP method. See Marshal and Unmarshal
 // for details.
@@ -200,7 +202,7 @@ var validMethod = map[string]bool{
 }
 
 func parseRouteTag(tag reflect.StructTag) (method, path string, err error) {
-	tagStr := tag.Get("httprequest")
+	tagStr := tag.Get(TagName)
 	if tagStr == "" {
 		return "", "", errgo.New("no httprequest tag")
 	}
@@ -253,7 +255,7 @@ func parseTag(rtag reflect.StructTag, fieldName string) (tag, error) {
 	t := tag{
 		name: fieldName,
 	}
-	tagStr := rtag.Get("httprequest")
+	tagStr := rtag.Get(TagName)
 	if tagStr == "" {
 		return t, nil
 	}
